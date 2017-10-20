@@ -9,13 +9,14 @@ use XMLWriter;
 
 class Phone implements XmlEntityInterface
 {
+
     const NAO_DEFINIDO = 0;
-    const RESIDENCIAL  = 1;
-    const COMERCIAL    = 2;
-    const RECADOS      = 3;
-    const COBRANCA     = 4;
-    const TEMPORARIO   = 5;
-    const CELULAR      = 6;
+    const RESIDENCIAL = 1;
+    const COMERCIAL = 2;
+    const RECADOS = 3;
+    const COBRANCA = 4;
+    const TEMPORARIO = 5;
+    const CELULAR = 6;
 
     private static $types = array(
         self::NAO_DEFINIDO,
@@ -127,10 +128,10 @@ class Phone implements XmlEntityInterface
 
     public function toXML(XMLWriter $xml)
     {
-        $xml->startElement("Phone");
+        $xml->startElement("Telefone");
 
         if (!is_null($this->type)) {
-            $xml->writeElement("Type", $this->type);
+            $xml->writeElement("Tipo", $this->type);
         } else {
             throw new RequiredFieldException('Field Type of the Phone object is required');
         }
@@ -146,15 +147,16 @@ class Phone implements XmlEntityInterface
         }
 
         if ($this->number) {
-            $xml->writeElement("Number", $this->number);
+            $xml->writeElement("Numero", $this->number);
         } else {
             throw new RequiredFieldException('Field Number of the Phone object is required');
         }
 
         if ($this->extension) {
-            $xml->writeElement("Extension", $this->extension);
+            $xml->writeElement("Ramal", $this->extension);
         }
 
         $xml->endElement();
     }
+
 }

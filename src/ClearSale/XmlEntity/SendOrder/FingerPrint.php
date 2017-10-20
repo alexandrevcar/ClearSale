@@ -7,6 +7,7 @@ use XMLWriter;
 
 class FingerPrint implements XmlEntityInterface
 {
+
     private $sessionId;
 
     public function __construct($sessionId)
@@ -28,12 +29,13 @@ class FingerPrint implements XmlEntityInterface
 
     public function toXML(XMLWriter $xml)
     {
-        $xml->startElement("FingerPrint");
+//        $xml->startElement("FingerPrint");
 
         if ($this->sessionId) {
             $xml->writeElement("SessionID", $this->sessionId);
         }
 
-        $xml->endElement();
+//        $xml->endElement();
     }
+
 }

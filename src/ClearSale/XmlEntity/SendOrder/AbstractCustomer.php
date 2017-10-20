@@ -10,6 +10,7 @@ use XMLWriter;
 
 abstract class AbstractCustomer implements XmlEntityInterface
 {
+
     const TYPE_PESSOA_FISICA = 1;
     const TYPE_PESSOA_JURIDICA = 2;
 
@@ -25,7 +26,6 @@ abstract class AbstractCustomer implements XmlEntityInterface
         self::GENDER_MASCULINO,
         self::GENDER_FEMININO,
     );
-
     protected $id;
     protected $type;
     protected $legalDocument1;
@@ -272,7 +272,7 @@ abstract class AbstractCustomer implements XmlEntityInterface
      */
     public function setPhones($phones)
     {
-        foreach ((array)$phones as $phone) {
+        foreach ((array) $phones as $phone) {
             $this->addPhone($phone);
         }
 
@@ -298,29 +298,29 @@ abstract class AbstractCustomer implements XmlEntityInterface
     public function toXML(XMLWriter $xml)
     {
         if ($this->id) {
-            $xml->writeElement("ID", $this->id);
+            $xml->writeElement("UsuarioID", $this->id);
         } else {
             throw new RequiredFieldException('Field ID of the Customer object is required');
         }
 
         if ($this->type) {
-            $xml->writeElement("Type", $this->type);
+            $xml->writeElement("TipoUsuario", $this->type);
         } else {
             throw new RequiredFieldException('Field Type of the Customer object is required');
         }
 
         if ($this->legalDocument1) {
-            $xml->writeElement("LegalDocument1", $this->legalDocument1);
+            $xml->writeElement("DocumentoLegal1", $this->legalDocument1);
         } else {
             throw new RequiredFieldException('Field LegalDocument1 of the Customer object is required');
         }
 
         if ($this->legalDocument2) {
-            $xml->writeElement("LegalDocument2", $this->legalDocument2);
+            $xml->writeElement("DocumentoLegal2", $this->legalDocument2);
         }
 
         if ($this->name) {
-            $xml->writeElement("Name", $this->name);
+            $xml->writeElement("Nome", $this->name);
         } else {
             throw new RequiredFieldException('Field name of the Customer object is required');
         }
@@ -330,7 +330,11 @@ abstract class AbstractCustomer implements XmlEntityInterface
         }
 
         if ($this->gender) {
-            $xml->writeElement("Gender", $this->gender);
+            $xml->writeElement("Sexo", $this->gender);
+        }
+
+        if ($this->birthDate) {
+            $xml->writeElement("Nascimento", $this->birthDate->format(Order::DATE_TIME_FORMAT));
         }
 
         if ($this->address) {
@@ -338,7 +342,7 @@ abstract class AbstractCustomer implements XmlEntityInterface
         }
 
         if (count($this->phones) > 0) {
-            $xml->startElement("Phones");
+            $xml->startElement("Telefones");
 
             foreach ($this->phones as $phone) {
                 $phone->toXML($xml);
@@ -347,4 +351,5 @@ abstract class AbstractCustomer implements XmlEntityInterface
             $xml->endElement();
         }
     }
+
 }

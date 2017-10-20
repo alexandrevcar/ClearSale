@@ -2,7 +2,7 @@
 
 date_default_timezone_set('America/Sao_Paulo');
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use ClearSale\ClearSaleAnalysis;
 use ClearSale\Environment\Sandbox;
@@ -12,7 +12,6 @@ use ClearSale\XmlEntity\SendOrder\Connection;
 use ClearSale\XmlEntity\SendOrder\CustomerBillingData;
 use ClearSale\XmlEntity\SendOrder\CustomerShippingData;
 use ClearSale\XmlEntity\SendOrder\FingerPrint;
-use ClearSale\XmlEntity\SendOrder\HotelReservation;
 use ClearSale\XmlEntity\SendOrder\Item;
 use ClearSale\XmlEntity\SendOrder\Order;
 use ClearSale\XmlEntity\SendOrder\Passenger;
@@ -41,35 +40,17 @@ try {
 
     $passenger = Passenger::create('Fulano da Silva', Passenger::DOCUMENT_TYPE_CPF, '63165236372');
     $connection = createConnection();
-    $hotelReservation = createHotelReservation();
 
     // Criar Pedido
     $order = Order::createAirlineTicketOrder(
-        $fingerPrint,
-        $orderId,
-        $date,
-        $email,
-        $totalItems,
-        $totalOrder,
-        $quantityInstallments,
-        $ip,
-        $origin,
-        $customerBillingData,
-        $customerShippingData,
-        $payment,
-        $item,
-        $passenger,
-        $connection,
-        $hotelReservation
-    );
+            $fingerPrint, $orderId, $date, $email, $totalItems, $totalOrder, $quantityInstallments, $ip, $origin, $customerBillingData, $customerShippingData, $payment, $item, $passenger, $connection);
 
     // Enviar pedido para análise
     $clearSale = new ClearSaleAnalysis($environment);
     $response = $clearSale->analysis($order);
 
     // Resultado da análise
-    switch ($response)
-    {
+    switch ($response) {
         case ClearSaleAnalysis::APROVADO:
             // Análise aprovou a cobrança, realizar o pagamento
 
@@ -114,13 +95,7 @@ function createCustomerBillingData()
     $birthDate = new \DateTime('1980-01-01');
 
     return CustomerBillingData::create(
-        $id,
-        AbstractCustomer::TYPE_PESSOA_FISICA,
-        $legalDocument,
-        $name,
-        $address,
-        $phone,
-        $birthDate
+            $id, AbstractCustomer::TYPE_PESSOA_FISICA, $legalDocument, $name, $address, $phone, $birthDate
     );
 }
 
@@ -133,12 +108,7 @@ function createCustomerShippingData()
     $phone = Phone::create(Phone::COMERCIAL, '11', '37288788');
 
     return CustomerShippingData::create(
-        $id,
-        AbstractCustomer::TYPE_PESSOA_FISICA,
-        $legalDocument,
-        $name,
-        $address,
-        $phone
+            $id, AbstractCustomer::TYPE_PESSOA_FISICA, $legalDocument, $name, $address, $phone
     );
 }
 
@@ -167,36 +137,6 @@ function createConnection()
     $arrivalDate = new \DateTime('2015-09-14 15:33:00');
 
     return Connection::create(
-        $company,
-        $flightNumber,
-        $flightDate,
-        $class,
-        $from,
-        $to,
-        $departureDate,
-        $arrivalDate
-    );
-}
-
-function createHotelReservation()
-{
-    $hotel = 'Hotel Beira Mar';
-    $city = 'João Pessoa';
-    $state = 'Paraíba';
-    $country = 'Brasil';
-    $reservationDate = new \DateTime('2015-07-01 15:30:00');
-    $reservationExpirationDate = new \DateTime('2015-07-15 00:00:00');
-    $checkInDate = new \DateTime('2015-09-14 14:00:00');
-    $checkOutDate = new \DateTime('2015-09-21 12:00:00');
-
-    return HotelReservation::create(
-        $hotel,
-        $city,
-        $state,
-        $country,
-        $reservationDate,
-        $reservationExpirationDate,
-        $checkInDate,
-        $checkOutDate
+            $company, $flightNumber, $flightDate, $class, $from, $to, $departureDate, $arrivalDate
     );
 }

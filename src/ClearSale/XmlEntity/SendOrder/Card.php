@@ -8,13 +8,14 @@ use XMLWriter;
 
 class Card implements XmlEntityInterface
 {
-    const DINERS           = 1;
-    const MASTERCARD       = 2;
-    const VISA             = 3;
-    const OUTROS           = 4;
+
+    const DINERS = 1;
+    const MASTERCARD = 2;
+    const VISA = 3;
+    const OUTROS = 4;
     const AMERICAN_EXPRESS = 5;
-    const HIPERCARD        = 6;
-    const AURA             = 7;
+    const HIPERCARD = 6;
+    const AURA = 7;
 
     private static $cards = array(
         self::DINERS,
@@ -116,27 +117,28 @@ class Card implements XmlEntityInterface
     public function toXML(XMLWriter $xml)
     {
         if ($this->number) {
-            $xml->writeElement("CardNumber", $this->number);
+            $xml->writeElement("HashNumeroCartao", $this->number);
         }
 
         if ($this->bin) {
-            $xml->writeElement("CardBin", $this->bin);
+            $xml->writeElement("BinCartao", $this->bin);
         }
 
         if ($this->securityCode) {
-            $xml->writeElement("CardEndNumber", $this->securityCode);
+            $xml->writeElement("Cartao4Ultimos", $this->securityCode);
         }
 
         if ($this->type) {
-            $xml->writeElement("CardType", $this->type);
+            $xml->writeElement("TipoCartao", $this->type);
         }
 
         if ($this->expirationDate) {
-            $xml->writeElement("CardExpirationDate", $this->expirationDate);
+            $xml->writeElement("DataValidadeCartao", $this->expirationDate);
         }
 
         if ($this->name) {
-            $xml->writeElement("Name", $this->name);
+            $xml->writeElement("NomeTitularCartao", $this->name);
         }
     }
+
 }

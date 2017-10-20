@@ -1,9 +1,9 @@
-<Address>
-  <Street>Rua José de Oliveira Coutinho</Street>
-  <Number>151</Number>
-  <County>Barra Funda</County>
-  <City>São Paulo</City>
-  <State>SP</State>
-  <Country>Brasil</Country>
-  <ZipCode>01144020</ZipCode>
-</Address>
+<Endereco>
+    <Logradouro>Rua José de Oliveira Coutinho</Logradouro>
+    <Numero>151</Numero>
+    <Bairro>Barra Funda</Bairro>
+    <Cidade>São Paulo</Cidade>
+    <UF>SP</UF>
+    <CEP>01144020</CEP>
+    <Pais>Brasil</Pais>
+</Endereco>

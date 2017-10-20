@@ -1,23 +1,23 @@
-<BillingData>
-  <ID>1</ID>
-  <Type>1</Type>
-  <LegalDocument1>63165236372</LegalDocument1>
-  <Name>Fulano da Silva</Name>
-  <Address>
-    <Street>Rua José de Oliveira Coutinho</Street>
-    <Number>151</Number>
-    <County>Barra Funda</County>
-    <City>São Paulo</City>
-    <State>SP</State>
-    <Country>Brasil</Country>
-    <ZipCode>01144020</ZipCode>
-  </Address>
-  <Phones>
-    <Phone>
-      <Type>2</Type>
-      <DDD>11</DDD>
-      <Number>37288788</Number>
-    </Phone>
-  </Phones>
-  <BirthDate>1980-01-01T00:00:00</BirthDate>
-</BillingData>
+<DadosCobranca>
+    <UsuarioID>1</UsuarioID>
+    <TipoUsuario>1</TipoUsuario>
+    <DocumentoLegal1>63165236372</DocumentoLegal1>
+    <Nome>Fulano da Silva</Nome>
+    <BirthDate>1980-01-01T00:00:00</BirthDate>
+    <Endereco>
+        <Logradouro>Rua José de Oliveira Coutinho</Logradouro>
+        <Numero>151</Numero>
+        <Bairro>Barra Funda</Bairro>
+        <Cidade>São Paulo</Cidade>
+        <UF>SP</UF>
+        <CEP>01144020</CEP>
+        <Pais>Brasil</Pais>
+    </Endereco>
+    <Telefones>
+        <Telefone>
+            <Tipo>2</Tipo>
+            <DDD>11</DDD>
+            <Numero>37288788</Numero>
+        </Telefone>
+    </Telefones>
+</DadosCobranca>

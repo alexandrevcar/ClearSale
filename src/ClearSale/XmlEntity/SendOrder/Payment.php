@@ -11,20 +11,21 @@ use XMLWriter;
 
 class Payment implements XmlEntityInterface
 {
-    const CARTAO_CREDITO           = 1;
-    const BOLETO_BANCARIO          = 2;
-    const DEBITO_BANCARIO          = 3;
+
+    const CARTAO_CREDITO = 1;
+    const BOLETO_BANCARIO = 2;
+    const DEBITO_BANCARIO = 3;
     const DEBITO_BANCARIO_DINHEIRO = 4;
-    const DEBITO_BANCARIO_CHEQUE   = 5;
-    const TRANSFERENCIA_BANCARIA   = 6;
-    const SEDEX_A_COBRAR           = 7;
-    const CHEQUE                   = 8;
-    const DINHEIRO                 = 9;
-    const FINANCIAMENTO            = 10;
-    const FATURA                   = 11;
-    const CUPOM                    = 12;
-    const MULTICHEQUE              = 13;
-    const OUTROS                   = 14;
+    const DEBITO_BANCARIO_CHEQUE = 5;
+    const TRANSFERENCIA_BANCARIA = 6;
+    const SEDEX_A_COBRAR = 7;
+    const CHEQUE = 8;
+    const DINHEIRO = 9;
+    const FINANCIAMENTO = 10;
+    const FATURA = 11;
+    const CUPOM = 12;
+    const MULTICHEQUE = 13;
+    const OUTROS = 14;
 
     private static $paymentTypes = array(
         self::CARTAO_CREDITO,
@@ -42,7 +43,6 @@ class Payment implements XmlEntityInterface
         self::MULTICHEQUE,
         self::OUTROS,
     );
-
     private $type;
     private $sequential;
     private $date;
@@ -106,7 +106,7 @@ class Payment implements XmlEntityInterface
     }
 
     /**
-     * 
+     *
      * @param DateTime $date
      * @return Payment
      */
@@ -240,62 +240,63 @@ class Payment implements XmlEntityInterface
 
     public function toXML(XMLWriter $xml)
     {
-        $xml->startElement("Payment");
+        $xml->startElement("Pagamento");
 
         if ($this->sequential) {
-            $xml->writeElement("Sequential", $this->sequential);
+            $xml->writeElement("NumeroSequencial", $this->sequential);
         }
 
         if ($this->date) {
-            $xml->writeElement("Date", $this->date->format(Order::DATE_TIME_FORMAT));
+            $xml->writeElement("Data", $this->date->format(Order::DATE_TIME_FORMAT));
         } else {
             throw new RequiredFieldException('Field Date of the Payment object is required');
         }
 
         if ($this->amount) {
-            $xml->writeElement("Amount", $this->amount);
+            $xml->writeElement("Valor", $this->amount);
         } else {
             throw new RequiredFieldException('Field Amount of the Payment object is required');
         }
 
         if ($this->type) {
-            $xml->writeElement("PaymentTypeID", $this->type);
+            $xml->writeElement("TipoPagamentoID", $this->type);
         } else {
             throw new RequiredFieldException('Field PaymentTypeID of the Payment object is required');
         }
 
         if ($this->qtyInstallments) {
-            $xml->writeElement("QtyInstallments", $this->qtyInstallments);
+            $xml->writeElement("QtdParcelas", $this->qtyInstallments);
         }
 
-        if ($this->interest) {
-            $xml->writeElement("Interest", $this->interest);
-        }
-
-        if ($this->interestValue) {
-            $xml->writeElement("InterestValue", $this->interestValue);
-        }
+//        if ($this->interest) {
+//            $xml->writeElement("Interest", $this->interest);
+//        }
+//
+//        if ($this->interestValue) {
+//            $xml->writeElement("InterestValue", $this->interestValue);
+//        }
 
         if ($this->card) {
             $this->card->toXML($xml);
         }
 
         if ($this->legalDocument) {
-            $xml->writeElement("LegalDocument", $this->legalDocument);
+            $xml->writeElement("DocumentoLegal1", $this->legalDocument);
         }
 
         if ($this->address) {
             $this->address->toXML($xml);
         }
 
-        if ($this->nsu) {
-            $xml->writeElement("Nsu", $this->nsu);
-        }
-
-        if ($this->currency) {
-            $xml->writeElement("Currency", $this->currency);
-        }
+//        if ($this->nsu) {
+//            $xml->writeElement("Nsu", $this->nsu);
+//        }
+//
+//        if ($this->currency) {
+//            $xml->writeElement("Currency", $this->currency);
+//        }
 
         $xml->endElement();
     }
+
 }

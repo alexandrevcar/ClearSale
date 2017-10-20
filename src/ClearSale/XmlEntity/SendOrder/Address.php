@@ -9,6 +9,7 @@ use XMLWriter;
 
 class Address implements XmlEntityInterface
 {
+
     private $street;
     private $number;
     private $complement;
@@ -65,7 +66,7 @@ class Address implements XmlEntityInterface
             throw new InvalidArgumentException('Number is empty!');
         }
 
-        $this->number = (string)$number;
+        $this->number = (string) $number;
 
         return $this;
     }
@@ -174,56 +175,58 @@ class Address implements XmlEntityInterface
 
     public function toXML(XMLWriter $xml)
     {
-        $xml->startElement("Address");
+        $xml->startElement("Endereco");
 
         if ($this->street) {
-            $xml->writeElement("Street", $this->street);
+            $xml->writeElement("Logradouro", $this->street);
         } else {
             throw new RequiredFieldException('Field Street of the Address object is required');
         }
 
         if ($this->number) {
-            $xml->writeElement("Number", $this->number);
+            $xml->writeElement("Numero", $this->number);
         } else {
             throw new RequiredFieldException('Field Number of the Address object is required');
         }
 
         if ($this->complement) {
-            $xml->writeElement("Comp", $this->complement);
+            $xml->writeElement("Complemento", $this->complement);
         }
 
         if ($this->county) {
-            $xml->writeElement("County", $this->county);
+            $xml->writeElement("Bairro", $this->county);
         } else {
             throw new RequiredFieldException('Field County of the Address object is required');
         }
 
         if ($this->city) {
-            $xml->writeElement("City", $this->city);
+            $xml->writeElement("Cidade", $this->city);
         } else {
             throw new RequiredFieldException('Field City of the Address object is required');
         }
 
         if ($this->state) {
-            $xml->writeElement("State", $this->state);
+            $xml->writeElement("UF", $this->state);
         } else {
             throw new RequiredFieldException('Field State of the Address object is required');
         }
 
-        if ($this->country) {
-            $xml->writeElement("Country", $this->country);
-        }
-
         if ($this->zipCode) {
-            $xml->writeElement("ZipCode", $this->zipCode);
+            $xml->writeElement("CEP", $this->zipCode);
         } else {
             throw new RequiredFieldException('Field ZipCode of the Address object is required');
         }
 
+        if ($this->country) {
+            $xml->writeElement("Pais", $this->country);
+        }
+
+
         if ($this->reference) {
-            $xml->writeElement("Reference", $this->reference);
+            $xml->writeElement("Referencia", $this->reference);
         }
 
         $xml->endElement();
     }
+
 }

@@ -9,6 +9,7 @@ use XMLWriter;
 
 class Item implements XmlEntityInterface
 {
+
     private $id;
     private $name;
     private $value;
@@ -156,41 +157,42 @@ class Item implements XmlEntityInterface
         $xml->startElement("Item");
 
         if ($this->id) {
-            $xml->writeElement("ID", $this->id);
+            $xml->writeElement("CodigoItem", $this->id);
         } else {
             throw new RequiredFieldException('Field ID of the Item object is required');
         }
 
         if ($this->name) {
-            $xml->writeElement("Name", $this->name);
+            $xml->writeElement("NomeItem", $this->name);
         } else {
             throw new RequiredFieldException('Field Name of the Payment object is required');
         }
 
         if ($this->value) {
-            $xml->writeElement("ItemValue", $this->value);
+            $xml->writeElement("ValorItem", $this->value);
         } else {
             throw new RequiredFieldException('Field ItemValue of the Payment object is required');
         }
 
         if ($this->quantity) {
-            $xml->writeElement("Qty", $this->quantity);
+            $xml->writeElement("Quantidade", $this->quantity);
         } else {
             throw new RequiredFieldException('Field Qty of the Payment object is required');
         }
 
         if ($this->isGift) {
-            $xml->writeElement("GiftTypeID", (int) $this->isGift);
+            $xml->writeElement("Generico", (int) $this->isGift);
         }
 
         if ($this->categoryId) {
-            $xml->writeElement("CategoryID", $this->categoryId);
+            $xml->writeElement("CodigoCategoria", $this->categoryId);
         }
 
         if ($this->categoryName) {
-            $xml->writeElement("CategoryName", $this->categoryName);
+            $xml->writeElement("NomeCategoria", $this->categoryName);
         }
 
         $xml->endElement();
     }
+
 }

@@ -10,6 +10,7 @@ use XMLWriter;
 
 class Passenger implements XmlEntityInterface
 {
+
     const DOCUMENT_TYPE_CPF = 1;
     const DOCUMENT_TYPE_CNPJ = 2;
     const DOCUMENT_TYPE_RG = 3;
@@ -27,7 +28,6 @@ class Passenger implements XmlEntityInterface
         self::DOCUMENT_TYPE_CTPS,
         self::DOCUMENT_TYPE_TITULO_ELEITOR
     );
-
     private $name;
     private $frequentFlyerCard;
     private $legalDocumentType;
@@ -116,34 +116,35 @@ class Passenger implements XmlEntityInterface
 
     public function toXML(XMLWriter $xml)
     {
-        $xml->startElement('Passenger');
+        $xml->startElement('Passageiro');
 
         if ($this->name) {
-            $xml->writeElement('Name', $this->name);
+            $xml->writeElement('Nome', $this->name);
         } else {
             throw new RequiredFieldException('Field Date of the Passenger object is required');
         }
 
         if ($this->frequentFlyerCard) {
-            $xml->writeElement('FrequentFlyerCard', $this->frequentFlyerCard);
+            $xml->writeElement('<ProgramaFidelidade', $this->frequentFlyerCard);
         }
 
         if ($this->legalDocumentType) {
-            $xml->writeElement('LegalDocumentType', $this->legalDocumentType);
+            $xml->writeElement('TipoDocumentoLegal', $this->legalDocumentType);
         } else {
             throw new RequiredFieldException('Field LegalDocumentType of the Passenger object is required');
         }
 
         if ($this->legalDocument) {
-            $xml->writeElement('LegalDocument', $this->legalDocument);
+            $xml->writeElement('DocumentoLegal', $this->legalDocument);
         } else {
             throw new RequiredFieldException('Field LegalDocument of the Passenger object is required');
         }
 
-        if ($this->birthDate) {
-            $xml->writeElement('BirthDate', $this->birthDate->format(Order::DATE_TIME_FORMAT));
-        }
+//        if ($this->birthDate) {
+//            $xml->writeElement('BirthDate', $this->birthDate->format(Order::DATE_TIME_FORMAT));
+//        }
 
         $xml->endElement();
     }
+
 }

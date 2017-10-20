@@ -9,6 +9,7 @@ use XMLWriter;
 
 class Order
 {
+
     const DATE_TIME_FORMAT = 'Y-m-d\TH:i:s';
     const ECOMMERCE_B2B = 'b2b';
     const ECOMMERCE_B2C = 'b2c';
@@ -102,7 +103,6 @@ class Order
     private $items;
     private $passengers;
     private $connections;
-    private $hotelReservations;
 
     /**
      * @param FingerPrint $fingerPrint
@@ -121,34 +121,11 @@ class Order
      * @return Order
      */
     public static function createEcommerceOrder(
-        FingerPrint $fingerPrint,
-        $id,
-        DateTime $date,
-        $email,
-        $totalItems,
-        $totalOrder,
-        $quantityInstallments,
-        $ip,
-        $origin,
-        CustomerBillingData $customerBillingData,
-        CustomerShippingData $customerShippingData,
-        Payment $payment,
-        Item $item
-    ) {
+    FingerPrint $fingerPrint, $id, DateTime $date, $email, $totalItems, $totalOrder, $quantityInstallments, $ip, $origin, CustomerBillingData $customerBillingData, CustomerShippingData $customerShippingData, Payment $payment, Item $item
+    )
+    {
         return static::create(
-            $fingerPrint,
-            $id,
-            $date,
-            $email,
-            $totalItems,
-            $totalOrder,
-            $quantityInstallments,
-            $ip,
-            $origin,
-            $customerBillingData,
-            $customerShippingData,
-            $payment,
-            $item
+                $fingerPrint, $id, $date, $email, $totalItems, $totalOrder, $quantityInstallments, $ip, $origin, $customerBillingData, $customerShippingData, $payment, $item
         );
     }
 
@@ -168,65 +145,15 @@ class Order
      * @param Item $item
      * @param Passenger $passenger
      * @param Connection $connection
-     * @param HotelReservation $hotelReservation
      * @return Order
      */
-    public static function createAirlineTicketOrder(
-        FingerPrint $fingerPrint,
-        $id,
-        DateTime $date,
-        $email,
-        $totalItems,
-        $totalOrder,
-        $quantityInstallments,
-        $ip,
-        $origin,
-        CustomerBillingData $customerBillingData,
-        CustomerShippingData $customerShippingData,
-        Payment $payment,
-        Item $item,
-        Passenger $passenger = null,
-        Connection $connection = null,
-        HotelReservation $hotelReservation = null
-    ) {
-        return static::create(
-            $fingerPrint,
-            $id,
-            $date,
-            $email,
-            $totalItems,
-            $totalOrder,
-            $quantityInstallments,
-            $ip,
-            $origin,
-            $customerBillingData,
-            $customerShippingData,
-            $payment,
-            $item,
-            $passenger,
-            $connection,
-            $hotelReservation
-        );
+    public static function createAirlineTicketOrder(FingerPrint $fingerPrint, $id, DateTime $date, $email, $totalItems, $totalOrder, $quantityInstallments, $ip, $origin, CustomerBillingData $customerBillingData, CustomerShippingData $customerShippingData, Payment $payment, Item $item, Passenger $passenger = null, Connection $connection = null)
+    {
+        return static::create($fingerPrint, $id, $date, $email, $totalItems, $totalOrder, $quantityInstallments, $ip, $origin, $customerBillingData, $customerShippingData, $payment, $item, $passenger, $connection);
     }
 
-    private static function create(
-        FingerPrint $fingerPrint,
-        $id,
-        DateTime $date,
-        $email,
-        $totalItems,
-        $totalOrder,
-        $quantityInstallments,
-        $ip,
-        $origin,
-        CustomerBillingData $customerBillingData,
-        CustomerShippingData $shippingData,
-        Payment $payment,
-        Item $item,
-        Passenger $passenger = null,
-        Connection $connection = null,
-        HotelReservation $hotelReservation = null
-    ) {
+    private static function create(FingerPrint $fingerPrint, $id, DateTime $date, $email, $totalItems, $totalOrder, $quantityInstallments, $ip, $origin, CustomerBillingData $customerBillingData, CustomerShippingData $shippingData, Payment $payment, Item $item, Passenger $passenger = null, Connection $connection = null)
+    {
         $instance = new self();
 
         $instance->setFingerPrint($fingerPrint);
@@ -249,10 +176,6 @@ class Order
 
         if (null !== $connection) {
             $instance->addConnection($connection);
-        }
-
-        if (null !== $hotelReservation) {
-            $instance->addHotelReservation($hotelReservation);
         }
 
         return $instance;
@@ -777,44 +700,13 @@ class Order
         return $this;
     }
 
-    /**
-     *
-     * @return HotelReservation[]
-     */
-    public function getHotelReservations()
-    {
-        return $this->hotelReservations;
-    }
-
-    /**
-     *
-     * @param HotelReservation[] $hotelReservations
-     * @return Order
-     */
-    public function setHotelReservations($hotelReservations)
-    {
-        foreach ($hotelReservations as $hotelReservation) {
-            $this->addHotelReservation($hotelReservation);
-        }
-        return $this;
-    }
-
-    public function addHotelReservation(HotelReservation $hotelReservation)
-    {
-        $this->hotelReservations[] = $hotelReservation;
-
-        return $this;
-    }
-
     public function toXML($prettyPrint = false)
     {
         $xml = new XMLWriter;
         $xml->openMemory();
         $xml->setIndent($prettyPrint);
 
-        $xml->startElement("ClearSale");
-        $xml->startElement("Orders");
-        $xml->startElement("Order");
+        $xml->startElement("ClearID_Input");
 
         if ($this->fingerPrint) {
             $this->fingerPrint->toXML($xml);
@@ -822,14 +714,16 @@ class Order
             throw new RequiredFieldException('Field FingerPrint of the Order object is required');
         }
 
+        $xml->startElement("Pedido");
+
         if ($this->id) {
-            $xml->writeElement("ID", $this->id);
+            $xml->writeElement("PedidoID", $this->id);
         } else {
             throw new RequiredFieldException('Field ID of the Order object is required');
         }
 
         if ($this->date) {
-            $xml->writeElement("Date", $this->date->format(Order::DATE_TIME_FORMAT));
+            $xml->writeElement("Data", $this->date->format(Order::DATE_TIME_FORMAT));
         } else {
             throw new RequiredFieldException('Field Date of the Order object is required');
         }
@@ -845,37 +739,29 @@ class Order
         }
 
         if ($this->shippingPrice) {
-            $xml->writeElement("ShippingPrice", $this->shippingPrice);
+            $xml->writeElement("ValorFrete", $this->shippingPrice);
         }
 
         if ($this->totalItems) {
-            $xml->writeElement("TotalItems", $this->totalItems);
+            $xml->writeElement("ValorTotalItens", $this->totalItems);
         } else {
             throw new RequiredFieldException('Field TotalItems of the Order object is required');
         }
 
         if ($this->totalOrder) {
-            $xml->writeElement("TotalOrder", $this->totalOrder);
+            $xml->writeElement("ValorTotalPedido", $this->totalOrder);
         } else {
             throw new RequiredFieldException('Field TotalOrder of the Order object is required');
         }
 
         if ($this->quantityInstallments) {
-            $xml->writeElement("QtyInstallments", $this->quantityInstallments);
+            $xml->writeElement("QtdParcelas", $this->quantityInstallments);
         } else {
             throw new RequiredFieldException('Field QtyInstallments of the Order object is required');
         }
 
         if ($this->deliveryTime) {
-            $xml->writeElement("DeliveryTimeCD", $this->deliveryTime);
-        }
-
-        if ($this->quantityItems) {
-            $xml->writeElement("QtyItems", $this->quantityItems);
-        }
-
-        if ($this->quantityPaymentTypes) {
-            $xml->writeElement("QtyPaymentTypes", $this->quantityPaymentTypes);
+            $xml->writeElement("PrazoEntrega", $this->deliveryTime);
         }
 
         if ($this->ip) {
@@ -884,56 +770,22 @@ class Order
             throw new RequiredFieldException('Field IP of the Order object is required');
         }
 
-        // TODO: ShippingType not implemented
-
-        if ($this->gift) {
-            $xml->writeElement("Gift", $this->gift);
-        }
-
-        if ($this->giftMessage) {
-            $xml->writeElement("GiftMessage", $this->giftMessage);
-        }
-
         if ($this->notes) {
-            $xml->writeElement("Obs", $this->notes);
+            $xml->writeElement("Observacao", $this->notes);
         }
 
         if ($this->status) {
             $xml->writeElement("Status", $this->status);
         }
 
-        if ($this->reanalysis) {
-            $xml->writeElement("Reanalise", $this->reanalysis);
-        }
-
         if ($this->origin) {
-            $xml->writeElement("Origin", $this->origin);
+            $xml->writeElement("Origem", $this->origin);
         } else {
             throw new RequiredFieldException('Field Origin of the Order object is required');
         }
 
         if ($this->reservationDate) {
-            $xml->writeElement("ReservationDate", $this->reservationDate->format(Order::DATE_TIME_FORMAT));
-        }
-
-        if ($this->country) {
-            $xml->writeElement("Country", $this->country);
-        }
-
-        if ($this->nationality) {
-            $xml->writeElement("Nationality", $this->nationality);
-        }
-
-        if ($this->product) {
-            $xml->writeElement("Product", $this->product);
-        }
-
-        if ($this->listType) {
-            $xml->writeElement("ListTypeID", $this->listType);
-        }
-
-        if ($this->listId) {
-            $xml->writeElement("ListID", $this->listId);
+            $xml->writeElement("DataReserva", $this->reservationDate->format(Order::DATE_TIME_FORMAT));
         }
 
         if ($this->customerBillingData) {
@@ -944,8 +796,9 @@ class Order
             $this->customerShippingData->toXML($xml);
         }
 
+
         if (count($this->payments) > 0) {
-            $xml->startElement("Payments");
+            $xml->startElement("Pagamentos");
 
             foreach ($this->payments as $payment) {
                 $payment->toXML($xml);
@@ -955,7 +808,7 @@ class Order
         }
 
         if (count($this->items) > 0) {
-            $xml->startElement("Items");
+            $xml->startElement("Itens");
 
             foreach ($this->items as $item) {
                 $item->toXML($xml);
@@ -984,20 +837,10 @@ class Order
             $xml->endElement();
         }
 
-        if (count($this->hotelReservations) > 0) {
-            $xml->startElement("HotelReservations");
-
-            foreach ($this->hotelReservations as $hotelReservation) {
-                $hotelReservation->toXML($xml);
-            }
-
-            $xml->endElement();
-        }
-
-        $xml->endElement(); // Order
-        $xml->endElement(); // Orders
-        $xml->endElement(); // ClearSale
+        $xml->endElement(); // Pedido
+        $xml->endElement(); // ClearID_Input
 
         return $xml->outputMemory(true);
     }
+
 }

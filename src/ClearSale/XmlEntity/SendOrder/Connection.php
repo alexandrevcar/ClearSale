@@ -9,6 +9,7 @@ use XMLWriter;
 
 class Connection implements XmlEntityInterface
 {
+
     private $company;
     private $flightNumber;
     private $flightDate;
@@ -19,15 +20,9 @@ class Connection implements XmlEntityInterface
     private $arrivalDate;
 
     public static function create(
-        $company,
-        $flightNumber,
-        DateTime $flightDate,
-        $class,
-        $from,
-        $to,
-        DateTime $departureDate,
-        DateTime $arrivalDate
-    ) {
+    $company, $flightNumber, DateTime $flightDate, $class, $from, $to, DateTime $departureDate, DateTime $arrivalDate
+    )
+    {
         $connection = new self();
 
         $connection
@@ -207,56 +202,57 @@ class Connection implements XmlEntityInterface
 
     public function toXML(XMLWriter $xml)
     {
-        $xml->startElement('Connection');
+        $xml->startElement('Conexao');
 
         if ($this->company) {
-            $xml->writeElement('Company', $this->company);
+            $xml->writeElement('Companhia', $this->company);
         } else {
             throw new RequiredFieldException('Field Company of the Connection object is required');
         }
 
         if ($this->flightNumber) {
-            $xml->writeElement('FlightNumber', $this->flightNumber);
+            $xml->writeElement('NumeroVoo', $this->flightNumber);
         } else {
             throw new RequiredFieldException('Field FlightNumber of the Connection object is required');
         }
 
         if ($this->flightDate) {
-            $xml->writeElement('FlightDate', $this->flightDate->format(Order::DATE_TIME_FORMAT));
+            $xml->writeElement('DataVoo', $this->flightDate->format(Order::DATE_TIME_FORMAT));
         } else {
             throw new RequiredFieldException('Field FlightDate of the Connection object is required');
         }
 
         if ($this->class) {
-            $xml->writeElement('Class', $this->class);
+            $xml->writeElement('Classe', $this->class);
         } else {
             throw new RequiredFieldException('Field Class of the Connection object is required');
         }
 
         if ($this->from) {
-            $xml->writeElement('From', $this->from);
+            $xml->writeElement('Origem', $this->from);
         } else {
             throw new RequiredFieldException('Field FROM of the Connection object is required');
         }
 
         if ($this->to) {
-            $xml->writeElement('To', $this->to);
+            $xml->writeElement('Destino', $this->to);
         } else {
             throw new RequiredFieldException('Field To of the Connection object is required');
         }
 
         if ($this->departureDate) {
-            $xml->writeElement('DepartureDate', $this->departureDate->format(Order::DATE_TIME_FORMAT));
+            $xml->writeElement('DataPartida', $this->departureDate->format(Order::DATE_TIME_FORMAT));
         } else {
             throw new RequiredFieldException('Field DepartureDate of the Connection object is required');
         }
 
         if ($this->arrivalDate) {
-            $xml->writeElement('ArrivalDate', $this->arrivalDate->format(Order::DATE_TIME_FORMAT));
+            $xml->writeElement('DataChegada', $this->arrivalDate->format(Order::DATE_TIME_FORMAT));
         } else {
             throw new RequiredFieldException('Field ArrivalDate of the Connection object is required');
         }
 
         $xml->endElement();
     }
+
 }

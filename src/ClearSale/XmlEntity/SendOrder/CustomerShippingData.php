@@ -10,6 +10,7 @@ use XMLWriter;
 
 class CustomerShippingData extends AbstractCustomer
 {
+
     /**
      * @param string $id
      * @param string $type
@@ -35,10 +36,11 @@ class CustomerShippingData extends AbstractCustomer
 
     public function toXML(XMLWriter $xml)
     {
-        $xml->startElement("ShippingData");
+        $xml->startElement("DadosEntrega");
 
         parent::toXML($xml);
 
         $xml->endElement();
     }
+
 }

@@ -4,6 +4,7 @@ namespace ClearSale\XmlEntity\Response;
 
 class PackageStatus
 {
+
     const STATUS_CODE_TRANSACAO_CONCLUIDA = '00';
     const STATUS_CODE_USUARIO_INEXISTENTE = '01';
     const STATUS_CODE_ERRO_VALIDACAO_XML = '02';
@@ -22,7 +23,6 @@ class PackageStatus
         self::STATUS_CODE_ERRO_PLUGIN_ENTRADA => 'ClearSale\Exception\InputPluginException',
         self::STATUS_CODE_ERRO_PLUGIN_SAIDA => 'ClearSale\Exception\OutputPluginException'
     );
-
     private $transactionId;
     private $statusCode;
     private $message;
@@ -49,9 +49,7 @@ class PackageStatus
 
         if (isset($object->Orders)) {
             $this->order = new OrderReturn(
-                $object->Orders->Order->ID,
-                $object->Orders->Order->Status,
-                $object->Orders->Order->Score
+                $object->Pedidos->Pedido->ID, $object->Pedidos->Pedido->Status, $object->Pedidos->Pedido->Score
             );
         }
     }
@@ -111,4 +109,5 @@ class PackageStatus
 
         throw new $exceptionClass($this->getMessage(), $this->getStatusCode());
     }
+
 }
